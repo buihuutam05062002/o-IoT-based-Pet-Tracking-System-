@@ -22,8 +22,7 @@ char pass[] = "";
 const String firebase_HOST = "https://kinhdovido-default-rtdb.asia-southeast1.firebasedatabase.app/";
 const String FIREBASE_AUTH = "AIzaSyBVMaHOEF_MV8G3nDGY5ghwBpeoFDJ3_xM";
 
-// Định nghĩa thời gian giữa các lần gửi dữ liệu (milliseconds)
-const unsigned long SEND_INTERVAL = 10000; // 10 giây
+const unsigned long SEND_INTERVAL = 10000; 
 unsigned long lastSendTime = 0;
 
 void setup() {
@@ -32,31 +31,16 @@ void setup() {
   Serial.begin(115200);
 
   delay(1000);
-
-  // enterCommandMode();
-  Serial.println("Khởi động module A7670CG...");
-  // Khởi tạo module
   sendAT("AT", 500);
-  
-  // sendAT("AT+CFUN=1", 5000); // Đặt chức năng đầy đủ
-  sendAT("AT+CSQ", 500); // Kiểm tra tín hiệu
-  // sendAT("AT+COPS?", 1000); // Kiểm tra nhà mạng
-  sendAT("AT+CGMR", 500); // Kiểm tra firmware
-  // sendAT("AT+CPIN?", 1000);
-  // sendAT("AT+CPSI?", 1000);
-  sendAT("AT+CNMP=38", 500); // Chỉ dùng LTE
-  // sendAT("AT+CREG?", 1000); 
-  
-  // Cấu hình kết nối mạng
-  sendAT("AT+CGDCONT=1,\"IP\",\"" + String(apn) + "\"", 1000); // APN
+  sendAT("AT+CSQ", 500);
+  sendAT("AT+CGMR", 500);
+  sendAT("AT+CNMP=38", 500); 
+
+  sendAT("AT+CGDCONT=1,\"IP\",\"" + String(apn) + "\"", 1000); 
   sendAT("AT+NETOPEN", 500);
-  sendAT("AT+CGATT=1", 500); // Gắn mạng
-  sendAT("AT+CGACT=1,1", 500); // Kích hoạt kết nối PDP
-  sendAT("AT+CGPADDR=1", 500); // Kiểm tra IP
-
-  // Tắt echo (tùy chọn)
-
-
+  sendAT("AT+CGATT=1", 500); 
+  sendAT("AT+CGACT=1,1", 500); 
+  sendAT("AT+CGPADDR=1", 500); 
   sendAT("ATE0", 1000);
   sendAT("AT+COPS=0", 1000);  
 
@@ -102,7 +86,7 @@ void sendDataToFirebase() {
   delay(500);
   SerialAT.print(jsonData);
   delay(1000);
-  sendAT("AT+HTTPACTION=4", 8000); // Tăng thời gian chờ
+  sendAT("AT+HTTPACTION=4", 8000); 
   delay(2000);
   sendAT("AT+HTTPREAD", 500); 
   sendAT("AT+HTTPTERM", 500);
